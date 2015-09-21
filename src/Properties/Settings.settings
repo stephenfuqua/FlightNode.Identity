@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FlightNode.Identity.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IdentityConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=(localdb)\ProjectsV12;Database=FlightNode;Integrated Security=true;</Value>
+    </Setting>
+    <Setting Name="AudienceId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">JustMakeupSomething</Value>
+    </Setting>
+    <Setting Name="AudienceSecret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">xJJR1vffcprjhi8vK6g4DKDmRq_yKY4Ip1svAmRaVV8</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

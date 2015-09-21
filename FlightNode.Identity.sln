@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Identity", "src\FlightNode.Identity.csproj", "{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DEA02140-495F-472B-93D2-A203C0CFDD5C}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget.config = ..\nuget.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Common", "..\FlightNode.Common\src\FlightNode.Common\FlightNode.Common.csproj", "{05902C28-0900-4902-9300-0540EEDAC9C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7E72364E-3265-48BC-A094-694381D9BB36}"
+	ProjectSection(SolutionItems) = preProject
+		..\FlightNode.Common\LICENSE = ..\FlightNode.Common\LICENSE
+		..\FlightNode.Common\README.md = ..\FlightNode.Common\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{35315C26-D7B6-40D6-BF38-9DCEC84CFF2A}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05902C28-0900-4902-9300-0540EEDAC9C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05902C28-0900-4902-9300-0540EEDAC9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05902C28-0900-4902-9300-0540EEDAC9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05902C28-0900-4902-9300-0540EEDAC9C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E72364E-3265-48BC-A094-694381D9BB36} = {DEA02140-495F-472B-93D2-A203C0CFDD5C}
+		{35315C26-D7B6-40D6-BF38-9DCEC84CFF2A} = {DEA02140-495F-472B-93D2-A203C0CFDD5C}
+	EndGlobalSection
+EndGlobal
