@@ -1,8 +1,3 @@
-using System.Data.Entity.Migrations;
-using FlightNode.Identity.Infrastructure;
-using FlightNode.Identity.Domain.Entities;
-using Persistence=FlightNode.Identity.Infrastructure.Persistence;
-
 namespace FlightNode.Identity.Infrastructure.Migrations
 {
 

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Threading.Tasks;
+﻿using FlightNode.Common.BaseClasses;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using FlightNode.Common.BaseClasses;
+using System.Threading.Tasks;
 
 namespace FlightNode.Identity.Domain.Entities
 {
@@ -13,13 +13,15 @@ namespace FlightNode.Identity.Domain.Entities
 
         [DataType(DataType.PhoneNumber)]
         public string MobilePhoneNumber { get; set; }
+        
 
         public User()
         {
             Active = true;
         }
 
-
+        // TODO: refactor this to use our custom UserManager, with separated interface. In fact, 
+        // what is the value of having this here? Comes from sample code.
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User, int> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in

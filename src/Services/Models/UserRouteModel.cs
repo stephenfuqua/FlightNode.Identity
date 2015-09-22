@@ -24,6 +24,8 @@ namespace FlightNode.Identity.Services.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        // TODO: will be used soon.
+
         //public IList<string> Roles { get; set; }
 
         //public IList<System.Security.Claims.ClaimsIdentity> Claims { get; set; }

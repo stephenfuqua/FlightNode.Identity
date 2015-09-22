@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{35
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Identity.UnitTests", "test\FlightNode.Identity.UnitTests\FlightNode.Identity.UnitTests.csproj", "{5A07349D-6883-475C-93C9-10CE6D0EB3BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Common.UnitTests", "..\FlightNode.Common\test\FlightNode.Common.UnitTests\FlightNode.Common.UnitTests.csproj", "{986E3868-2878-4CF8-AFA1-1CED803EA044}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{05902C28-0900-4902-9300-0540EEDAC9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05902C28-0900-4902-9300-0540EEDAC9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05902C28-0900-4902-9300-0540EEDAC9C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A07349D-6883-475C-93C9-10CE6D0EB3BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A07349D-6883-475C-93C9-10CE6D0EB3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A07349D-6883-475C-93C9-10CE6D0EB3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A07349D-6883-475C-93C9-10CE6D0EB3BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
