@@ -26,12 +26,10 @@ namespace FlightNode.Identity.Domain.Logic
         {
             if (manager == null)
             {
-                throw new ArgumentException("manager");
+                throw new ArgumentNullException("manager");
             }
 
             _userManager = manager;
-
-            //_userManager = new UserManager(new UserStore(new IdentityDbContext()));
         }
 
 
@@ -44,7 +42,7 @@ namespace FlightNode.Identity.Domain.Logic
         {
             var records = _userManager.Users.Where(x => x.Active);
 
-            var dtos = Map<User, UserModel>(records);
+            var dtos = Map(records);
 
             return dtos;                
         }
@@ -52,21 +50,44 @@ namespace FlightNode.Identity.Domain.Logic
         public UserModel FindById(int id)
         {
             var record = _userManager.FindByIdAsync(id).Result;
-            
-            // Is this fully hydrated?
 
-            var dto = Map<User, UserModel>(record);
+            // TODO: Is this fully hydrated? That is, does FindByIdAsync also populate 
+            // roles & claims? If so, need to map those as well.
+
+            var dto = Map(record);
 
             return dto;
         }
 
+        private UserModel Map(User input)
+        {
+            return new UserModel
+            {
+                Email = input.Email,
+                MobilePhoneNumber = input.MobilePhoneNumber,
+                Password = string.Empty,
+                PhoneNumber = input.PhoneNumber,
+                UserId = input.Id,
+                UserName = input.UserName
+            };
+        }
+
+        private IEnumerable<UserModel> Map(IEnumerable<User> input)
+        {
+            foreach(var i in input)
+            {
+                yield return Map(i);
+            }
+        }
+
+
         public UserModel Save(UserModel input)
         {
-            // Need to re-assign roles / claims ??
+            // TODO: Need to re-assign roles / claims ??
 
             var record = Map<UserModel, User>(input);
 
-            // Do I need to load the original into EF first?
+            // TODO: Do we need to load the original into EF first?
             //var original = _ternRepository.FindByIdAsync(input.UserId).Result;
 
             

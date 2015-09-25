@@ -1,6 +1,6 @@
-﻿using System.Data.Entity;
+﻿using FlightNode.Identity.Domain.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
-using FlightNode.Identity.Domain.Entities;
+using System.Data.Entity;
 
 namespace FlightNode.Identity.Infrastructure.Persistence
 {

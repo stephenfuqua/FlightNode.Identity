@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FlightNode.Identity")]
+[assembly: AssemblyTitle("FlightNode.Identity.UnitTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FlightNode.Identity")]
+[assembly: AssemblyProduct("FlightNode.Identity.UnitTests")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8efa7367-e1a8-4ca3-8f20-91ce6fe38f7f")]
+[assembly: Guid("5a07349d-6883-475c-93c9-10ce6d0eb3bc")]
 
 // Version information for an assembly consists of the following four values:
 //

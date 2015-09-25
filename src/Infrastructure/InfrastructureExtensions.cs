@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FlightNode.Common.BaseClasses;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
-using FlightNode.Common.BaseClasses;
 
 namespace FlightNode.Identity.Infrastructure
 {

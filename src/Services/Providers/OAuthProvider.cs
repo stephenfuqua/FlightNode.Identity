@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using FlightNode.Identity.Infrastructure.Persistence;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System.Threading.Tasks;
-using FlightNode.Identity.Infrastructure.Persistence;
 
 namespace FlightNode.Identity.Services.Providers
 {
