@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Identity", "src\FlightNode.Identity.csproj", "{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Identity", "src\FlightNode.Identity\FlightNode.Identity.csproj", "{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DEA02140-495F-472B-93D2-A203C0CFDD5C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Extra Files", "_Extra Files", "{DEA02140-495F-472B-93D2-A203C0CFDD5C}"
 	ProjectSection(SolutionItems) = preProject
 		..\nuget.config = ..\nuget.config
 	EndProjectSection
@@ -27,6 +27,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Identity.UnitTests", "test\FlightNode.Identity.UnitTests\FlightNode.Identity.UnitTests.csproj", "{5A07349D-6883-475C-93C9-10CE6D0EB3BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Common.UnitTests", "..\FlightNode.Common\test\FlightNode.Common.UnitTests\FlightNode.Common.UnitTests.csproj", "{986E3868-2878-4CF8-AFA1-1CED803EA044}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Projets", "Shared Projets", "{C1605CEE-F815-4662-860B-4BBCAC5D0B35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{EB318C14-CD4D-4334-B541-31115A658541}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Common.Api", "..\FlightNode.Common\src\FlightNode.Api\FlightNode.Common.Api.csproj", "{35293658-9D86-44CC-BBE2-8674053633AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FligthNote.Common.Api.UnitTests", "..\FlightNode.Common\test\FligthNote.Common.Api.UnitTests\FligthNote.Common.Api.UnitTests.csproj", "{3715E7D9-92E0-4C85-889F-85D81E357BD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightNode.Identity.App", "src\FlightNode.Identity.App\FlightNode.Identity.App.csproj", "{B2C3A4FC-1E43-446E-A30E-67F68CF9F416}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,12 +60,31 @@ Global
 		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{986E3868-2878-4CF8-AFA1-1CED803EA044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35293658-9D86-44CC-BBE2-8674053633AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35293658-9D86-44CC-BBE2-8674053633AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35293658-9D86-44CC-BBE2-8674053633AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35293658-9D86-44CC-BBE2-8674053633AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3715E7D9-92E0-4C85-889F-85D81E357BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3715E7D9-92E0-4C85-889F-85D81E357BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3715E7D9-92E0-4C85-889F-85D81E357BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3715E7D9-92E0-4C85-889F-85D81E357BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C3A4FC-1E43-446E-A30E-67F68CF9F416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C3A4FC-1E43-446E-A30E-67F68CF9F416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C3A4FC-1E43-446E-A30E-67F68CF9F416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C3A4FC-1E43-446E-A30E-67F68CF9F416}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{8EFA7367-E1A8-4CA3-8F20-91CE6FE38F7F} = {EB318C14-CD4D-4334-B541-31115A658541}
+		{05902C28-0900-4902-9300-0540EEDAC9C1} = {C1605CEE-F815-4662-860B-4BBCAC5D0B35}
 		{7E72364E-3265-48BC-A094-694381D9BB36} = {DEA02140-495F-472B-93D2-A203C0CFDD5C}
 		{35315C26-D7B6-40D6-BF38-9DCEC84CFF2A} = {DEA02140-495F-472B-93D2-A203C0CFDD5C}
+		{5A07349D-6883-475C-93C9-10CE6D0EB3BC} = {EB318C14-CD4D-4334-B541-31115A658541}
+		{986E3868-2878-4CF8-AFA1-1CED803EA044} = {C1605CEE-F815-4662-860B-4BBCAC5D0B35}
+		{35293658-9D86-44CC-BBE2-8674053633AB} = {C1605CEE-F815-4662-860B-4BBCAC5D0B35}
+		{3715E7D9-92E0-4C85-889F-85D81E357BD8} = {C1605CEE-F815-4662-860B-4BBCAC5D0B35}
+		{B2C3A4FC-1E43-446E-A30E-67F68CF9F416} = {EB318C14-CD4D-4334-B541-31115A658541}
 	EndGlobalSection
 EndGlobal

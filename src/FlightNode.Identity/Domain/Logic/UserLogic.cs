@@ -13,7 +13,8 @@ namespace FlightNode.Identity.Domain.Logic
     {
         IEnumerable<UserModel> FindAll();
         UserModel FindById(int id);
-        UserModel Save(UserModel input);
+        UserModel Create(UserModel input);
+        void Update(UserModel input);
         void Deactivate(int id);
         void ChangePassword(int id, PasswordModel change);
     }
@@ -79,46 +80,32 @@ namespace FlightNode.Identity.Domain.Logic
                 yield return Map(i);
             }
         }
-
-
-        public UserModel Save(UserModel input)
+        
+        public void Update(UserModel input)
         {
-            // TODO: Need to re-assign roles / claims ??
+            var record = _userManager.FindByIdAsync(input.UserId).Result;
 
-            var record = Map<UserModel, User>(input);
+            record.UserName = input.Email;
+            record.MobilePhoneNumber = input.MobilePhoneNumber;
+            record.PhoneNumber = input.PhoneNumber;
+            record.UserName = input.UserName;
 
-            // TODO: Do we need to load the original into EF first?
-            //var original = _ternRepository.FindByIdAsync(input.UserId).Result;
-
-            
-            if (input.UserId < 1)
-            {
-                input.UserId = SaveNew(record, input.Password);
-                return input;
-            }
-            else
-            {
-                UpdateExisting(record);
-                return input;
-            }
-        }
-
-        private void UpdateExisting(User input)
-        {
-            var result = _userManager.UpdateAsync(input).Result;
+            var result = _userManager.UpdateAsync(record).Result;
             if (!result.Succeeded)
             {
                 throw UserException.FromMultipleMessages(result.Errors);
             }
         }
 
-        private int SaveNew(User record, string password)
+        public UserModel Create(UserModel input)
         {
-            var result = _userManager.CreateAsync(record, password).Result;
+            var record = Map<UserModel, User>(input);
+
+            var result = _userManager.CreateAsync(record, input.Password).Result;
             if (result.Succeeded)
             {
-                // Does this record now have the UserId in it?
-                return record.Id;
+                input.UserId = record.Id;
+                return input;
             }
             else
             {
