@@ -1,10 +1,10 @@
-﻿using System;
-using System.Web.Http;
-using Flurl;
-using FlightNode.Common.Exceptions;
+﻿using FlightNode.Common.Exceptions;
 using FlightNode.Identity.Domain.Logic;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
+using Flurl;
+using System;
+using System.Web.Http;
 
 namespace FligthNode.Identity.Services.Controllers
 {

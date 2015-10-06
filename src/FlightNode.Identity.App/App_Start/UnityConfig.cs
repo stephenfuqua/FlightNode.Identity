@@ -1,8 +1,6 @@
 using FlightNode.Api.DependencyResolution;
-using FlightNode.Identity.Services.Models;
 using FlightNode.Identity.Services.Providers;
 using Microsoft.Practices.Unity;
-using System.Reflection;
 using System.Web.Http.Dependencies;
 
 namespace FlightNode.Identity.App

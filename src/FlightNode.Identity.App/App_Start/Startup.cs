@@ -1,9 +1,6 @@
-﻿using FlightNode.Identity.Infrastructure.Persistence;
-using FlightNode.Identity.Services.Providers;
+﻿using FlightNode.Identity.Services.Providers;
 using Microsoft.Owin;
-using Microsoft.Owin.Security.OAuth;
 using Owin;
-using System;
 
 [assembly: OwinStartup(typeof(FligthNode.Identity.App.Startup))]
 

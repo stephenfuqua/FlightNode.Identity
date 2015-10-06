@@ -1,5 +1,6 @@
 ﻿using FlightNode.Identity.App;
 using FlightNode.Identity.Services.Filters;
+using FlightNode.Identity.Services.Providers;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Net.Http.Formatting;
@@ -17,6 +18,9 @@ namespace FligthNode.Identity.App
             
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+
+            config = ApiStartup.Register(config);
         }
 
         private static HttpConfiguration ConfigureRoutes(HttpConfiguration config)

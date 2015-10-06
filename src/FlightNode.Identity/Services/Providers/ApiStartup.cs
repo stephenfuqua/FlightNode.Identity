@@ -10,11 +10,24 @@ using Microsoft.Practices.Unity;
 using Owin;
 using System;
 using System.Reflection;
+using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace FlightNode.Identity.Services.Providers
 {
     public static class ApiStartup
     {
+        public static HttpConfiguration Register(HttpConfiguration config)
+        {
+            // TODO: make this configurable instead of completely opening it up to the world.
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
+            return config;
+        }
+
+
+
         public static IAppBuilder Configure(IAppBuilder app, string issuer)
         {
             app = ConfigureIdentityManagement(app, issuer);
