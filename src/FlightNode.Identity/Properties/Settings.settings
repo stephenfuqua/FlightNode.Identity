@@ -11,5 +11,8 @@
     <Setting Name="AudienceSecret" Type="System.String" Scope="Application">
       <Value Profile="(Default)">xJJR1vffcprjhi8vK6g4DKDmRq_yKY4Ip1svAmRaVV8</Value>
     </Setting>
+    <Setting Name="AllowInsecureHttpConnection" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
