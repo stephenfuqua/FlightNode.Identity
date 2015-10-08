@@ -116,7 +116,7 @@ namespace FlightNode.Identity.Domain.Logic
 
         public void ChangePassword(int id, PasswordModel change)
         {
-            var result = _userManager.ChangePasswordAsync(id, change.OldPassword, change.NewPassword).Result;
+            var result = _userManager.ChangePasswordAsync(id, change.CurrentPassword, change.NewPassword).Result;
             if (!result.Succeeded)
             {
                 throw UserException.FromMultipleMessages(result.Errors);
