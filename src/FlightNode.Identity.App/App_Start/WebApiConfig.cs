@@ -18,9 +18,7 @@ namespace FligthNode.Identity.App
             
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-
-            config = ApiStartup.Register(config);
+            
         }
 
         private static HttpConfiguration ConfigureRoutes(HttpConfiguration config)
