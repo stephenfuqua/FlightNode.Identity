@@ -35,7 +35,7 @@ namespace FlightNode.Identity.Services.Providers
                 TokenEndpointPath = new PathString("/oauth/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new OAuthProvider(),
-
+                ApplicationCanDisplayErrors = false,
                 
                 AccessTokenFormat = new JwtFormat(issuer)
             };

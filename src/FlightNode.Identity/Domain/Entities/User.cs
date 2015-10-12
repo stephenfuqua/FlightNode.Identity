@@ -13,7 +13,14 @@ namespace FlightNode.Identity.Domain.Entities
 
         [DataType(DataType.PhoneNumber)]
         public string MobilePhoneNumber { get; set; }
-        
+
+        [Required]
+        [StringLength(50)]  
+        public string GivenName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string FamilyName { get; set; }
 
         public User()
         {

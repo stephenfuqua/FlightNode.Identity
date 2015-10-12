@@ -109,7 +109,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
 
             }
 
-            public class SingleActiveUsers : Fixture
+            public class SingleActiveUser : Fixture
             {
                 const int userId = 12312;
                 const string email = "asd@asdfasd.com";
@@ -117,6 +117,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 const string userName = "asdfasd";
                 const string mobileNumber = "(555) 555-5554";
                 const bool active = true;
+                const string familyName = "last";
+                const string givenName = "first";
 
                 private IEnumerable<UserModel> RunTheTest()
                 {
@@ -127,7 +129,9 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                         Id = userId,
                         Email = email,
                         PhoneNumber = phoneNumber,
-                        UserName = userName
+                        UserName = userName,
+                        FamilyName = familyName,
+                        GivenName = givenName
                     };
 
                     mockUserManager.SetupGet(x => x.Users)
@@ -174,6 +178,18 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 {
                     Assert.Equal(userId, RunTheTest().First().UserId);
                 }
+
+                [Fact]
+                public void ConfirmFamilyNameIsMapped()
+                {
+                    Assert.Equal(familyName, RunTheTest().First().FamilyName);
+                }
+
+                [Fact]
+                public void ConfirmGivenNameIsMapped()
+                {
+                    Assert.Equal(givenName, RunTheTest().First().GivenName);
+                }
             }
 
             public class TwoActiveUsers : Fixture
@@ -184,6 +200,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 const string userName = "asdfasd";
                 const string mobileNumber = "(555) 555-5554";
                 const bool active = true;
+                const string familyName = "last";
+                const string givenName = "first";
 
                 private IEnumerable<UserModel> RunTheTest()
                 {
@@ -194,7 +212,9 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                         Id = userId,
                         Email = email,
                         PhoneNumber = phoneNumber,
-                        UserName = userName
+                        UserName = userName,
+                        FamilyName = familyName,
+                        GivenName = givenName
                     };
 
                     mockUserManager.SetupGet(x => x.Users)
@@ -242,6 +262,18 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 {
                     Assert.Equal(userId, RunTheTest().Skip(1).First().UserId);
                 }
+
+                [Fact]
+                public void ConfirmGivenNameIsMappedForSecondUser()
+                {
+                    Assert.Equal(givenName, RunTheTest().Skip(1).First().GivenName);
+                }
+
+                [Fact]
+                public void ConfirmFamilyNameIsMappedForSecondUser()
+                {
+                    Assert.Equal(familyName, RunTheTest().Skip(1).First().FamilyName);
+                }
             }
         }
 
@@ -271,6 +303,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 const string userName = "asdfasd";
                 const string mobileNumber = "(555) 555-5554";
                 const bool active = true;
+                const string familyName = "last";
+                const string givenName = "first";
 
                 private UserModel RunTheTest()
                 {
@@ -281,7 +315,9 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                         Id = userId,
                         Email = email,
                         PhoneNumber = phoneNumber,
-                        UserName = userName
+                        UserName = userName,
+                        FamilyName = familyName,
+                        GivenName = givenName
                     };
 
                     mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
@@ -324,6 +360,18 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 public void ConfirmUserIdIsMapped()
                 {
                     Assert.Equal(userId, RunTheTest().UserId);
+                }
+
+                [Fact]
+                public void ConfirmFamilylNameIsMapped()
+                {
+                    Assert.Equal(familyName, RunTheTest().FamilyName);
+                }
+
+                [Fact]
+                public void ConfirmGivenNameIsMapped()
+                {
+                    Assert.Equal(givenName, RunTheTest().GivenName);
                 }
             }
 

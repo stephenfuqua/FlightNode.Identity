@@ -69,7 +69,9 @@ namespace FlightNode.Identity.Domain.Logic
                 Password = string.Empty,
                 PhoneNumber = input.PhoneNumber,
                 UserId = input.Id,
-                UserName = input.UserName
+                UserName = input.UserName,
+                GivenName = input.GivenName,
+                FamilyName = input.FamilyName
             };
         }
 
@@ -89,6 +91,8 @@ namespace FlightNode.Identity.Domain.Logic
             record.MobilePhoneNumber = input.MobilePhoneNumber;
             record.PhoneNumber = input.PhoneNumber;
             record.UserName = input.UserName;
+            record.GivenName = input.GivenName;
+            record.FamilyName = input.FamilyName;
 
             var result = _userManager.UpdateAsync(record).Result;
             if (!result.Succeeded)

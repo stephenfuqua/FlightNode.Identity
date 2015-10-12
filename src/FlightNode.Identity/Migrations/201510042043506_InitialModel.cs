@@ -49,10 +49,13 @@ namespace FlightNode.Identity.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                    })
+                        GivenName = c.String(nullable: false, maxLength: 50),
+                        FamilyName = c.String(nullable: false, maxLength: 50),
+                })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
-            
+
+
             CreateTable(
                 "dbo.UserClaims",
                 c => new
