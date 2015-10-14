@@ -167,7 +167,7 @@ namespace FligthNode.Identity.Services.Controllers
             try
             {
                 _userLogic.ChangePassword(id, change);
-
+            
                 return NoContent();
             }
             catch (UserException tue)

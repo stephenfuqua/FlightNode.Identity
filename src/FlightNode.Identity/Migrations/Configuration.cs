@@ -15,16 +15,18 @@ namespace FlightNode.Identity.Migrations
         protected override void Seed(FlightNode.Identity.Infrastructure.Persistence.IdentityDbContext context)
         {
             context.Roles.AddOrUpdate(r => r.Name,
-                new Role { Name = "Administrator", Description = "Administrative user" },
-                new Role { Name = "User", Description = "Regular user" }
+            new Role { Name = "Administrator", Description = "Administrative user" },
+            new Role { Name = "User", Description = "Regular user" }
             );
 
             var manager = new UserManager(new UserStore(context));
 
             var user = new User
             {
-                UserName = "ab@asfddfsdfs.com",
-                Email = "ab@asfddsdfs.com"
+                UserName = "asdf",
+                Email = "ab@asfddsdfs.com",
+                GivenName = "Juana",
+                FamilyName = "Coneja"
             };
 
             manager.CreateAsync(user, "dirigible1").Wait();

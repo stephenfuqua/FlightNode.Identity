@@ -1,9 +1,9 @@
 namespace FlightNode.Identity.Migrations
 {
-
+    using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class InitialModels : DbMigration
     {
         public override void Up()
         {
@@ -38,6 +38,8 @@ namespace FlightNode.Identity.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Active = c.Boolean(nullable: false),
                         MobilePhoneNumber = c.String(),
+                        GivenName = c.String(nullable: false, maxLength: 50),
+                        FamilyName = c.String(nullable: false, maxLength: 50),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -49,13 +51,10 @@ namespace FlightNode.Identity.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        GivenName = c.String(nullable: false, maxLength: 50),
-                        FamilyName = c.String(nullable: false, maxLength: 50),
-                })
+                    })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
-
-
+            
             CreateTable(
                 "dbo.UserClaims",
                 c => new
