@@ -1,11 +1,14 @@
-﻿using FlightNode.Identity.Domain.Entities;
+﻿using FlightNode.Common.Exceptions;
+using FlightNode.Identity.Domain.Entities;
 using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Domain.Logic;
 using FlightNode.Identity.Services.Models;
+using Microsoft.AspNet.Identity;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace FlightNode.Identity.UnitTests.Domain.Logic
@@ -57,6 +60,179 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             }
         }
 
+        public class CreateUser : Fixture
+        {
+            [Fact]
+            public void NullObjectNotAllowed()
+            {
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    BuildSystem().Create(null);
+                });
+            }
+
+            const string givenName = "José";
+            const string familyName = "Jalapeño";
+            const string primaryPhoneNumber = "(512) 555-2391";
+            const string secondaryPhoneNumber = "(651) 234-2349";
+            const string userName = "josej";
+            const string password = "bien gracias, y tú?";
+            const string email = "jose@jalapenos.com";
+            const int userId = 2342;
+
+            private UserModel RunTest()
+            {
+                var input = new UserModel
+                {
+                    Email = email,
+                    FamilyName = familyName,
+                    GivenName = givenName,
+                    Password = password,
+                    PrimaryPhoneNumber = primaryPhoneNumber,
+                    SecondaryPhoneNumber = secondaryPhoneNumber,
+                    UserName = userName
+                };
+
+                return BuildSystem().Create(input);
+            }
+
+            [Fact]
+            public void ConfirmUserIdIsSet()
+            {
+                mockUserManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.Is<string>(y => y == password)))
+                    .Callback((User actual, string p) =>
+                    {
+                        Assert.Equal(givenName, actual.GivenName);
+                        Assert.Equal(familyName, actual.FamilyName);
+                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
+                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
+                        Assert.Equal(userName, actual.UserName);
+                        Assert.Equal(email, actual.Email);
+                        Assert.True(actual.Active);
+                    })
+                    .Returns((User actual, string p) =>
+                    {
+                        actual.Id = userId;
+
+                        return Task.Run(() => SuccessResult.Create());
+                    });
+
+
+
+                Assert.Equal(userId, RunTest().UserId);
+            }
+
+            [Fact]
+            public void ConfirmErrorHandling()
+            {
+                mockUserManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.Is<string>(y => y == password)))
+                    .Callback((User actual, string p) =>
+                    {
+                        Assert.Equal(givenName, actual.GivenName);
+                        Assert.Equal(familyName, actual.FamilyName);
+                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
+                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
+                        Assert.Equal(userName, actual.UserName);
+                        Assert.Equal(email, actual.Email);
+                        Assert.True(actual.Active);
+                    })
+                    .Returns((User actual, string p) =>
+                    {
+                        actual.Id = userId;
+
+                        return Task.Run(() => new IdentityResult(new[] { "something bad happened" }));
+                    });
+
+
+                Assert.Throws<UserException>(() => RunTest().UserId);
+            }
+        }
+
+
+        public class UpdateUser : Fixture
+        {
+            [Fact]
+            public void NullObjectNotAllowed()
+            {
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    BuildSystem().Update(null);
+                });
+            }
+
+            const string givenName = "José";
+            const string familyName = "Jalapeño";
+            const string primaryPhoneNumber = "(512) 555-2391";
+            const string secondaryPhoneNumber = "(651) 234-2349";
+            const string userName = "josej";
+            const string password = "bien gracias, y tú?";
+            const string email = "jose@jalapenos.com";
+            const int userId = 2342;
+
+            private void RunTest()
+            {
+                var input = new UserModel
+                {
+                    Email = email,
+                    FamilyName = familyName,
+                    GivenName = givenName,
+                    Password = password,
+                    PrimaryPhoneNumber = primaryPhoneNumber,
+                    SecondaryPhoneNumber = secondaryPhoneNumber,
+                    UserName = userName
+                };
+
+                BuildSystem().Update(input);
+            }
+
+            [Fact]
+            public void ConfirmUserIdIsSet()
+            {
+                mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
+                    .Callback((User actual, string p) =>
+                    {
+                        Assert.Equal(givenName, actual.GivenName);
+                        Assert.Equal(familyName, actual.FamilyName);
+                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
+                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
+                        Assert.Equal(userName, actual.UserName);
+                        Assert.Equal(email, actual.Email);
+                        Assert.True(actual.Active);
+                    })
+                    .Returns((User actual, string p) =>
+                    {
+                        actual.Id = userId;
+                            
+                        return Task.Run(() => SuccessResult.Create());
+                    });
+                
+                RunTest();
+            }
+
+            [Fact]
+            public void ConfirmErrorHandling()
+            {
+                mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
+                    .Callback((User actual, string p) =>
+                    {
+                        Assert.Equal(givenName, actual.GivenName);
+                        Assert.Equal(familyName, actual.FamilyName);
+                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
+                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
+                        Assert.Equal(userName, actual.UserName);
+                        Assert.Equal(email, actual.Email);
+                        Assert.True(actual.Active);
+                    })
+                    .Returns((User actual, string p) =>
+                    {
+                        actual.Id = userId;
+
+                        return Task.Run(() => new IdentityResult(new[] { "something bad happened" }));
+                    });
+
+                RunTest();
+            }
+        }
         public class FindAllUsers : Fixture
         {
 
@@ -152,13 +328,13 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 [Fact]
                 public void ConfirmMobileNumberIsMapped()
                 {
-                    Assert.Equal(mobileNumber, RunTheTest().First().MobilePhoneNumber);
+                    Assert.Equal(mobileNumber, RunTheTest().First().SecondaryPhoneNumber);
                 }
 
                 [Fact]
                 public void ConfirmPhoneNumberIsMapped()
                 {
-                    Assert.Equal(phoneNumber, RunTheTest().First().PhoneNumber);
+                    Assert.Equal(phoneNumber, RunTheTest().First().PrimaryPhoneNumber);
                 }
 
                 [Fact]
@@ -236,13 +412,13 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 [Fact]
                 public void ConfirmMobileNumberIsMappedForSecondUser()
                 {
-                    Assert.Equal(mobileNumber, RunTheTest().Skip(1).First().MobilePhoneNumber);
+                    Assert.Equal(mobileNumber, RunTheTest().Skip(1).First().SecondaryPhoneNumber);
                 }
 
                 [Fact]
                 public void ConfirmPhoneNumberIsMappedForSecondUser()
                 {
-                    Assert.Equal(phoneNumber, RunTheTest().Skip(1).First().PhoneNumber);
+                    Assert.Equal(phoneNumber, RunTheTest().Skip(1).First().PrimaryPhoneNumber);
                 }
 
                 [Fact]
@@ -284,7 +460,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             public void ConfirmWhenUserDoesNotExist()
             {
                 var id = 1232;
-                
+
                 // TODO: confirm that EF is returning a non-null result
 
                 mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == id)))
@@ -325,7 +501,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
 
                     return BuildSystem().FindById(userId);
                 }
-                
+
                 [Fact]
                 public void ConfirmPasswordIsEmpty()
                 {
@@ -335,13 +511,13 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 [Fact]
                 public void ConfirmMobileNumberIsMapped()
                 {
-                    Assert.Equal(mobileNumber, RunTheTest().MobilePhoneNumber);
+                    Assert.Equal(mobileNumber, RunTheTest().SecondaryPhoneNumber);
                 }
 
                 [Fact]
                 public void ConfirmPhoneNumberIsMapped()
                 {
-                    Assert.Equal(phoneNumber, RunTheTest().PhoneNumber);
+                    Assert.Equal(phoneNumber, RunTheTest().PrimaryPhoneNumber);
                 }
 
                 [Fact]
@@ -375,6 +551,16 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 }
             }
 
+        }
+    }
+
+    public class SuccessResult : IdentityResult
+    {
+        public SuccessResult() : base(true) { }
+
+        internal static IdentityResult Create()
+        {
+            return new SuccessResult();
         }
     }
 }

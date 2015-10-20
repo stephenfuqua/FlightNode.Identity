@@ -20,10 +20,10 @@ namespace FlightNode.Identity.Services.Models
         public string Email { get; set; }
 
         /// <summary>
-        /// Phone Number
+        /// Primary Phone Number
         /// </summary>
         [Phone]
-        public string PhoneNumber { get; set; }
+        public string PrimaryPhoneNumber { get; set; }
 
         /// <summary>
         /// User name
@@ -32,10 +32,10 @@ namespace FlightNode.Identity.Services.Models
         public string UserName { get; set; }
 
         /// <summary>
-        /// Mobile Phone Number
+        /// Secondary Phone Number
         /// </summary>
         [Phone]
-        public string MobilePhoneNumber { get; set; }
+        public string SecondaryPhoneNumber { get; set; }
 
         /// <summary>
         /// Given ("first") Name

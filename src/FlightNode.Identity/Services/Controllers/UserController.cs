@@ -102,8 +102,8 @@ namespace FligthNode.Identity.Services.Controllers
         ///   "givenName": "Juana",
         ///   "familyName": "Coneja",
         ///   "email": "dirigible@asfddfsdfs.com",
-        ///   "phoneNumber": "555-555-5555",
-        ///   "mobilePhoneNumber": "(555) 555-5554",
+        ///   "primaryPhoneNumber": "555-555-5555",
+        ///   "secondaryPhoneNumber": "(555) 555-5554",
         ///   "password": "deerEatRabbits?"
         /// }
         /// </example>

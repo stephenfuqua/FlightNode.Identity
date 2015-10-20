@@ -55,9 +55,14 @@ namespace FlightNode.Identity.Domain.Logic
             // TODO: Is this fully hydrated? That is, does FindByIdAsync also populate 
             // roles & claims? If so, need to map those as well.
 
-            var dto = Map(record);
-
-            return dto;
+            if (record == null)
+            {
+                return new UserModel();
+            }
+            else
+            {
+                return Map(record);
+            }
         }
 
         private UserModel Map(User input)
@@ -65,9 +70,9 @@ namespace FlightNode.Identity.Domain.Logic
             return new UserModel
             {
                 Email = input.Email,
-                MobilePhoneNumber = input.MobilePhoneNumber,
+                SecondaryPhoneNumber = input.MobilePhoneNumber,
                 Password = string.Empty,
-                PhoneNumber = input.PhoneNumber,
+                PrimaryPhoneNumber = input.PhoneNumber,
                 UserId = input.Id,
                 UserName = input.UserName,
                 GivenName = input.GivenName,
@@ -85,11 +90,16 @@ namespace FlightNode.Identity.Domain.Logic
         
         public void Update(UserModel input)
         {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
             var record = _userManager.FindByIdAsync(input.UserId).Result;
 
             record.UserName = input.Email;
-            record.MobilePhoneNumber = input.MobilePhoneNumber;
-            record.PhoneNumber = input.PhoneNumber;
+            record.MobilePhoneNumber = input.SecondaryPhoneNumber;
+            record.PhoneNumber = input.PrimaryPhoneNumber;
             record.UserName = input.UserName;
             record.GivenName = input.GivenName;
             record.FamilyName = input.FamilyName;
@@ -101,9 +111,16 @@ namespace FlightNode.Identity.Domain.Logic
             }
         }
 
+
+
         public UserModel Create(UserModel input)
         {
-            var record = Map<UserModel, User>(input);
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            var record = Map(input);
 
             var result = _userManager.CreateAsync(record, input.Password).Result;
             if (result.Succeeded)
@@ -116,6 +133,20 @@ namespace FlightNode.Identity.Domain.Logic
                 throw UserException.FromMultipleMessages(result.Errors);
             }
 
+        }
+
+        private User Map(UserModel input)
+        {
+            return new User
+            {
+                Active = true,
+                Email = input.Email,
+                FamilyName = input.FamilyName,
+                GivenName = input.GivenName,
+                MobilePhoneNumber = input.SecondaryPhoneNumber,
+                PhoneNumber = input.PrimaryPhoneNumber,
+                UserName = input.UserName
+            };
         }
 
         public void ChangePassword(int id, PasswordModel change)
