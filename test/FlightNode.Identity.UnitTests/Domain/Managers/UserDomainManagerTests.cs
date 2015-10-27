@@ -13,15 +13,15 @@ using Xunit;
 
 namespace FlightNode.Identity.UnitTests.Domain.Logic
 {
-    public class UserLogicTests
+    public class UserDomainManagerTests
     {
         public class Fixture : IDisposable
         {
-            protected Mock<IUserManager> mockUserManager = new Mock<IUserManager>(MockBehavior.Strict);
+            protected Mock<Identity.Domain.Interfaces.IUserPersistence> mockUserManager = new Mock<Identity.Domain.Interfaces.IUserPersistence>(MockBehavior.Strict);
 
-            protected UserLogic BuildSystem()
+            protected UserDomainManager BuildSystem()
             {
-                return new UserLogic(mockUserManager.Object);
+                return new UserDomainManager(mockUserManager.Object);
             }
 
             public void Dispose()
@@ -43,7 +43,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             [Fact]
             public void ConfirmThatNullArgumentIsNotAllowed()
             {
-                Assert.Throws<ArgumentNullException>(() => new UserLogic(null));
+                Assert.Throws<ArgumentNullException>(() => new UserDomainManager(null));
             }
         }
 
@@ -179,7 +179,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                     Password = password,
                     PrimaryPhoneNumber = primaryPhoneNumber,
                     SecondaryPhoneNumber = secondaryPhoneNumber,
-                    UserName = userName
+                    UserName = userName,
+                    UserId = userId
                 };
 
                 BuildSystem().Update(input);
@@ -188,8 +189,11 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             [Fact]
             public void ConfirmUserIdIsSet()
             {
+                mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
+                    .Returns(Task.Run(()=> new User()));
+
                 mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
-                    .Callback((User actual, string p) =>
+                    .Callback((User actual) =>
                     {
                         Assert.Equal(givenName, actual.GivenName);
                         Assert.Equal(familyName, actual.FamilyName);
@@ -199,7 +203,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                         Assert.Equal(email, actual.Email);
                         Assert.True(actual.Active);
                     })
-                    .Returns((User actual, string p) =>
+                    .Returns((User actual) =>
                     {
                         actual.Id = userId;
                             
@@ -212,25 +216,19 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             [Fact]
             public void ConfirmErrorHandling()
             {
+                mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
+                       .Returns(Task.Run(() => new User()));
+
+
                 mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
-                    .Callback((User actual, string p) =>
-                    {
-                        Assert.Equal(givenName, actual.GivenName);
-                        Assert.Equal(familyName, actual.FamilyName);
-                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
-                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
-                        Assert.Equal(userName, actual.UserName);
-                        Assert.Equal(email, actual.Email);
-                        Assert.True(actual.Active);
-                    })
-                    .Returns((User actual, string p) =>
+                    .Returns((User actual) =>
                     {
                         actual.Id = userId;
 
                         return Task.Run(() => new IdentityResult(new[] { "something bad happened" }));
                     });
 
-                RunTest();
+                Assert.Throws<UserException>(() => RunTest());
             }
         }
         public class FindAllUsers : Fixture

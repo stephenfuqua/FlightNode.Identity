@@ -9,21 +9,12 @@ using System.Linq;
 
 namespace FlightNode.Identity.Domain.Logic
 {
-    public interface IUserLogic
-    {
-        IEnumerable<UserModel> FindAll();
-        UserModel FindById(int id);
-        UserModel Create(UserModel input);
-        void Update(UserModel input);
-        void Deactivate(int id);
-        void ChangePassword(int id, PasswordModel change);
-    }
 
-    public class UserLogic : DomainLogic, IUserLogic
+    public class UserDomainManager : DomainLogic, IUserDomainManager
     {
-        private IUserManager _userManager;
+        private Interfaces.IUserPersistence _userManager;
 
-        public UserLogic(IUserManager manager)
+        public UserDomainManager(Interfaces.IUserPersistence manager)
         {
             if (manager == null)
             {
@@ -41,11 +32,9 @@ namespace FlightNode.Identity.Domain.Logic
 
         public IEnumerable<UserModel> FindAll()
         {
-            var records = _userManager.Users.Where(x => x.Active);
-
-            var dtos = Map(records);
-
-            return dtos;                
+            return _userManager.Users
+                .Where(x => x.Active)
+                .Select(x => Map(x));   
         }
 
         public UserModel FindById(int id)
@@ -79,14 +68,7 @@ namespace FlightNode.Identity.Domain.Logic
                 FamilyName = input.FamilyName
             };
         }
-
-        private IEnumerable<UserModel> Map(IEnumerable<User> input)
-        {
-            foreach(var i in input)
-            {
-                yield return Map(i);
-            }
-        }
+        
         
         public void Update(UserModel input)
         {
@@ -97,7 +79,7 @@ namespace FlightNode.Identity.Domain.Logic
 
             var record = _userManager.FindByIdAsync(input.UserId).Result;
 
-            record.UserName = input.Email;
+            record.Email = input.Email;
             record.MobilePhoneNumber = input.SecondaryPhoneNumber;
             record.PhoneNumber = input.PrimaryPhoneNumber;
             record.UserName = input.UserName;

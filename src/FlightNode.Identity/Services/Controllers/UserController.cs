@@ -1,4 +1,5 @@
 ﻿using FlightNode.Common.Exceptions;
+using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Domain.Logic;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
@@ -13,20 +14,20 @@ namespace FligthNode.Identity.Services.Controllers
     /// </summary>
     public class UserController : LoggingController
     {
-        private readonly IUserLogic _userLogic;
+        private readonly IUserDomainManager _manager;
 
         /// <summary>
         /// Creates a new instance of <see cref="UserController"/>
         /// </summary>
-        /// <param name="manager">Instance of <see cref="IUserLogic"/></param>
-        public UserController(IUserLogic manager)
+        /// <param name="manager">Instance of <see cref="IUserDomainManager"/></param>
+        public UserController(IUserDomainManager manager)
         {
             if (manager == null)
             {
                 throw new ArgumentNullException("manager");
             }
 
-            _userLogic = manager;
+            _manager = manager;
         }
 
 
@@ -48,7 +49,7 @@ namespace FligthNode.Identity.Services.Controllers
         {
             try
             {
-                var all = _userLogic.FindAll();
+                var all = _manager.FindAll();
                 return Ok(all);
             }
             catch (Exception ex)
@@ -70,7 +71,7 @@ namespace FligthNode.Identity.Services.Controllers
         {
             try
             {
-                var result = _userLogic.FindById(id);
+                var result = _manager.FindById(id);
                 if (result != null)
                 {
                     return Ok(result);
@@ -117,7 +118,7 @@ namespace FligthNode.Identity.Services.Controllers
 
             try
             {
-                var result = _userLogic.Create(user);
+                var result = _manager.Create(user);
                 var location = Request.RequestUri
                                       .ToString()
                                       .AppendPathSegment(result.UserId.ToString());
@@ -166,7 +167,7 @@ namespace FligthNode.Identity.Services.Controllers
 
             try
             {
-                _userLogic.ChangePassword(id, change);
+                _manager.ChangePassword(id, change);
             
                 return NoContent();
             }
@@ -215,7 +216,7 @@ namespace FligthNode.Identity.Services.Controllers
             {
                 // For safety, override the message body's id with the input value
                 user.UserId = id;
-                _userLogic.Update(user);
+                _manager.Update(user);
 
                 return NoContent();
             }
@@ -243,7 +244,7 @@ namespace FligthNode.Identity.Services.Controllers
         {
             try
             {
-                _userLogic.Deactivate(id);
+                _manager.Deactivate(id);
 
                 return NoContent();
             }

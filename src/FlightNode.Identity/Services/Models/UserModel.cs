@@ -23,18 +23,21 @@ namespace FlightNode.Identity.Services.Models
         /// Primary Phone Number
         /// </summary>
         [Phone]
+        [StringLength(256)]
         public string PrimaryPhoneNumber { get; set; }
 
         /// <summary>
         /// User name
         /// </summary>
         [Required]
+        [StringLength(256)]
         public string UserName { get; set; }
 
         /// <summary>
         /// Secondary Phone Number
         /// </summary>
         [Phone]
+        [StringLength(256)]
         public string SecondaryPhoneNumber { get; set; }
 
         /// <summary>
@@ -55,6 +58,7 @@ namespace FlightNode.Identity.Services.Models
         /// Password. Only used for initial creation. Ignored in PUT/update
         /// </summary>
         [DataType(DataType.Password)]
+        [StringLength(256)]
         public string Password { get; set; }
 
         // TODO: will be used soon.

@@ -14,22 +14,29 @@ namespace FlightNode.Identity.Migrations
 
         protected override void Seed(FlightNode.Identity.Infrastructure.Persistence.IdentityDbContext context)
         {
+            // Initial Roles
             context.Roles.AddOrUpdate(r => r.Name,
-            new Role { Name = "Administrator", Description = "Administrative user" },
-            new Role { Name = "User", Description = "Regular user" }
+                new Role { Name = "Administrator", Description = "Administrative user" },
+                new Role { Name = "Reporter", Description = "Volunteer data reporter" },
+                new Role { Name = "Coordinator", Description = "Project coordinator" },
+                new Role { Name = "Lead", Description = "Volunteer team lead" }
             );
 
+            // Initial users
             var manager = new UserManager(new UserStore(context));
-
-            var user = new User
+            if (manager.FindByNameAsync("asdf").Result == null)
             {
-                UserName = "asdf",
-                Email = "ab@asfddsdfs.com",
-                GivenName = "Juana",
-                FamilyName = "Coneja"
-            };
+                var user = new User
+                {
+                    UserName = "asdf",
+                    Email = "ab@asfddsdfs.com",
+                    GivenName = "Juana",
+                    FamilyName = "Coneja"
+                };
 
-            manager.CreateAsync(user, "dirigible1").Wait();
+                manager.CreateAsync(user, "dirigible1").Wait();
+            }
+
         }
     }
 }

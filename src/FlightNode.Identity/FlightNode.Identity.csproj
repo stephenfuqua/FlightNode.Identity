@@ -40,16 +40,24 @@
     <Compile Include="Domain\Entities\UserClaim.cs" />
     <Compile Include="Domain\Entities\UserLogin.cs" />
     <Compile Include="Domain\Entities\UserRole.cs" />
-    <Compile Include="Domain\Interfaces\IUserManager.cs" />
+    <Compile Include="Domain\Interfaces\IRoleManager.cs" />
+    <Compile Include="Domain\Interfaces\IRolePersistence.cs" />
+    <Compile Include="Domain\Interfaces\IUserDomainManager.cs" />
+    <Compile Include="Domain\Interfaces\IUserPersistence.cs" />
+    <Compile Include="Domain\Managers\RoleDomainManager.cs" />
     <Compile Include="Infrastructure\InfrastructureExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\IdentityDbContext.cs" />
     <Compile Include="Infrastructure\Persistence\RoleStore.cs" />
     <Compile Include="Infrastructure\Persistence\UserManager.cs" />
     <Compile Include="Infrastructure\Persistence\UserStore.cs" />
-    <Compile Include="Domain\Logic\UserLogic.cs" />
+    <Compile Include="Domain\Managers\UserDomainManager.cs" />
     <Compile Include="Migrations\201510042043506_InitialModels.cs" />
     <Compile Include="Migrations\201510042043506_InitialModels.Designer.cs">
       <DependentUpon>201510042043506_InitialModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510270342542_Role-Description.cs" />
+    <Compile Include="Migrations\201510270342542_Role-Description.Designer.cs">
+      <DependentUpon>201510270342542_Role-Description.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,9 +66,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\Controllers\RoleController.cs" />
     <Compile Include="Services\Controllers\UserController.cs" />
     <Compile Include="Services\Filters\NotImplExceptionFilter.cs" />
     <Compile Include="Services\Filters\UnhandledExceptionFilter.cs" />
+    <Compile Include="Services\Models\RoleModel.cs" />
     <Compile Include="Services\Providers\ApiStartup.cs" />
     <Compile Include="Services\Providers\JwtFormat.cs" />
     <Compile Include="Services\Providers\OAuthProvider.cs" />
@@ -221,6 +231,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510042043506_InitialModels.resx">
       <DependentUpon>201510042043506_InitialModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510270342542_Role-Description.resx">
+      <DependentUpon>201510270342542_Role-Description.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

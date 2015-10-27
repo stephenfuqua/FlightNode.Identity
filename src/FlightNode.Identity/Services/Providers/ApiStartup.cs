@@ -80,7 +80,7 @@ namespace FlightNode.Identity.Services.Providers
         private static IUnityContainer RegisterAllTypesIn(IUnityContainer container, Assembly repoAssembly)
         {
             container.RegisterTypes(AllClasses.FromAssemblies(repoAssembly),
-                                                 WithMappings.FromMatchingInterface,
+                                                 WithMappings.FromAllInterfacesInSameAssembly,
                                                  WithName.Default,
                                                  WithLifetime.PerResolve);
 

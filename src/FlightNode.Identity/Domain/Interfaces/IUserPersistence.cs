@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlightNode.Identity.Domain.Interfaces
 {
-    public interface IUserManager
+    public interface IUserPersistence
     {
         void SoftDelete(int id);
         Task<User> FindByIdAsync(int id);

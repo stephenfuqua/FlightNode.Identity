@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FlightNode.Identity.Infrastructure.Persistence
 {
 
-    public class UserManager : UserManager<User, int>, IUserManager
+    public class UserManager : UserManager<User, int>, IUserPersistence
     {
         public UserManager(IUserStore<User, int> store)
         : base(store)
