@@ -5,6 +5,7 @@ using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
 using Flurl;
 using System;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace FligthNode.Identity.Services.Controllers
@@ -108,9 +109,13 @@ namespace FligthNode.Identity.Services.Controllers
         ///   "password": "deerEatRabbits?"
         /// }
         /// </example>
+        /// 
+        //[Authorize(Roles = "Administrator")]   // the roles are not loading or something... because a user who actually has this role is being denied.
         [Authorize]
         public IHttpActionResult Post([FromBody]UserModel user)
         {
+            //var identity = (User.Identity as ClaimsIdentity);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

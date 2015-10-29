@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightNode.Identity.Services.Models
 {
@@ -60,10 +61,11 @@ namespace FlightNode.Identity.Services.Models
         [DataType(DataType.Password)]
         [StringLength(256)]
         public string Password { get; set; }
-
-        // TODO: will be used soon.
-
-        //public IList<string> Roles { get; set; }
+        
+        /// <summary>
+        /// Roles to which this user belongs
+        /// </summary>
+        public IList<int> Roles { get; set; }
 
         //public IList<System.Security.Claims.ClaimsIdentity> Claims { get; set; }
     }

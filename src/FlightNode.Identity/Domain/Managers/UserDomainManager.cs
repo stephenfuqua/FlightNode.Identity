@@ -34,6 +34,7 @@ namespace FlightNode.Identity.Domain.Logic
         {
             return _userManager.Users
                 .Where(x => x.Active)
+                .ToList()
                 .Select(x => Map(x));   
         }
 
