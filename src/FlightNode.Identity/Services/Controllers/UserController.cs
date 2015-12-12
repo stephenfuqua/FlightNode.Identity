@@ -1,11 +1,9 @@
 ﻿using FlightNode.Common.Exceptions;
 using FlightNode.Identity.Domain.Interfaces;
-using FlightNode.Identity.Domain.Logic;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
 using Flurl;
 using System;
-using System.Security.Claims;
 using System.Web.Http;
 
 namespace FligthNode.Identity.Services.Controllers
@@ -48,15 +46,11 @@ namespace FligthNode.Identity.Services.Controllers
         [Authorize]
         public IHttpActionResult Get()
         {
-            try
+            return WrapWithTryCatch(() =>
             {
                 var all = _manager.FindAll();
                 return Ok(all);
-            }
-            catch (Exception ex)
-            {
-                return Handle(ex);
-            }
+            });
         }
 
         /// <summary>
@@ -70,7 +64,7 @@ namespace FligthNode.Identity.Services.Controllers
         [Authorize]
         public IHttpActionResult Get(int id)
         {
-            try
+            return WrapWithTryCatch(() =>
             {
                 var result = _manager.FindById(id);
                 if (result != null)
@@ -81,15 +75,7 @@ namespace FligthNode.Identity.Services.Controllers
                 {
                     return NotFound();
                 }
-            }
-            catch (UserException tue)
-            {
-                return Handle(tue);
-            }
-            catch (Exception ex)
-            {
-                return Handle(ex);
-            }
+            });
         }
 
         /// <summary>
@@ -114,30 +100,21 @@ namespace FligthNode.Identity.Services.Controllers
         [Authorize]
         public IHttpActionResult Post([FromBody]UserModel user)
         {
-            //var identity = (User.Identity as ClaimsIdentity);
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
+            return WrapWithTryCatch(() =>
             {
+
                 var result = _manager.Create(user);
                 var location = Request.RequestUri
                                       .ToString()
                                       .AppendPathSegment(result.UserId.ToString());
 
                 return Created(location, result);
-            }
-            catch (UserException tue)
-            {
-                return Handle(tue);
-            }
-            catch (Exception ex)
-            {
-                return Handle(ex);
-            }
+            });
         }
 
 
@@ -164,26 +141,16 @@ namespace FligthNode.Identity.Services.Controllers
         [Route("api/v1/user/changepassword/{id:int}")]
         public IHttpActionResult ChangePassword(int id, [FromBody]PasswordModel change)
         {
-            // Todo ther's a lot of duplicated code here...
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            try
+            return WrapWithTryCatch(() =>
             {
                 _manager.ChangePassword(id, change);
-            
+
                 return NoContent();
-            }
-            catch (UserException tue)
-            {
-                return Handle(tue);
-            }
-            catch (Exception ex)
-            {
-                return Handle(ex);
-            }
+            });
 
         }
 
@@ -216,23 +183,14 @@ namespace FligthNode.Identity.Services.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            try
+            return WrapWithTryCatch(() =>
             {
                 // For safety, override the message body's id with the input value
                 user.UserId = id;
                 _manager.Update(user);
 
                 return NoContent();
-            }
-            catch (UserException tue)
-            {
-                return Handle(tue);
-            }
-            catch (Exception ex)
-            {
-                return Handle(ex);
-            }
+            });
         }
 
 
@@ -247,20 +205,12 @@ namespace FligthNode.Identity.Services.Controllers
         [Authorize]
         public IHttpActionResult Delete(int id)
         {
-            try
+            return WrapWithTryCatch(() =>
             {
                 _manager.Deactivate(id);
 
                 return NoContent();
-            }
-            catch (UserException tue)
-            {
-                return Handle(tue);
-            }
-            catch (Exception ex)
-            {
-                return Handle(ex);
-            }
+            });
         }
     }
 }

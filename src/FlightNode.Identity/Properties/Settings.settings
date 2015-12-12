@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FlightNode.Identity.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="IdentityConnectionString" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Data Source=(localdb)\ProjectsV12;Database=FlightNode;Integrated Security=true;</Value>
-    </Setting>
     <Setting Name="AudienceId" Type="System.String" Scope="Application">
       <Value Profile="(Default)">JustMakeupSomething</Value>
     </Setting>
@@ -13,6 +10,9 @@
     </Setting>
     <Setting Name="AllowInsecureHttpConnection" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="IdentityConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=(localdb)\ProjectsV12;Database=FlightNode.Tests;Integrated Security=true;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

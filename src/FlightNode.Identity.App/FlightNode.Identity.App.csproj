@@ -198,10 +198,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\FlightNode.Identity\App_Data\FligthNode.Identity.xml">
-      <Link>App_Data\FligthNode.Identity.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Global.asax" />
     <None Include="readme.md" />
     <Content Include="index.html" />

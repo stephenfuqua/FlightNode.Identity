@@ -39,6 +39,8 @@ namespace FlightNode.Identity.Domain.Managers
             {
                 var records = _roleStore.Roles.ToList();
 
+                // TODO: mistake - the domain manager should not know about service models
+                // Thus the translation should be in the controller.
                 return records.Select(x => new RoleModel
                 {
                     Description = x.Description,

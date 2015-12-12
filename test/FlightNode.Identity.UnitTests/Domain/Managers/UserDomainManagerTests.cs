@@ -2,6 +2,7 @@
 using FlightNode.Identity.Domain.Entities;
 using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Domain.Logic;
+using FlightNode.Identity.Infrastructure.Persistence;
 using FlightNode.Identity.Services.Models;
 using Microsoft.AspNet.Identity;
 using Moq;
@@ -13,6 +14,13 @@ using Xunit;
 
 namespace FlightNode.Identity.UnitTests.Domain.Logic
 {
+    // Only use this class and its test when you need to hash a password and manually update the database
+    //public class ManualHashing
+    //{
+    //    UserManager<User> manager = new UserManager<User>(new UserStore(IdentityDbContext.Create()));
+    //}
+
+
     public class UserDomainManagerTests
     {
         public class Fixture : IDisposable
@@ -190,7 +198,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             public void ConfirmUserIdIsSet()
             {
                 mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
-                    .Returns(Task.Run(()=> new User()));
+                    .Returns(Task.Run(() => new User()));
 
                 mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
                     .Callback((User actual) =>
@@ -206,10 +214,10 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                     .Returns((User actual) =>
                     {
                         actual.Id = userId;
-                            
+
                         return Task.Run(() => SuccessResult.Create());
                     });
-                
+
                 RunTest();
             }
 

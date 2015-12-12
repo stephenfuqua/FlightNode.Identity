@@ -1,5 +1,5 @@
 ﻿using FlightNode.Identity.App;
-using FlightNode.Identity.Services.Filters;
+using FlightNode.Common.Api.Filters;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Net.Http.Formatting;

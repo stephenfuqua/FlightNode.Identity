@@ -25,15 +25,6 @@ namespace FlightNode.Identity.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\ProjectsV12;Database=FlightNode;Integrated Security=true;")]
-        public string IdentityConnectionString {
-            get {
-                return ((string)(this["IdentityConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("JustMakeupSomething")]
         public string AudienceId {
             get {
@@ -56,6 +47,16 @@ namespace FlightNode.Identity.Properties {
         public bool AllowInsecureHttpConnection {
             get {
                 return ((bool)(this["AllowInsecureHttpConnection"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\ProjectsV12;Database=FlightNode.Tests;Integrated Security=t" +
+            "rue;")]
+        public string IdentityConnectionString {
+            get {
+                return ((string)(this["IdentityConnectionString"]));
             }
         }
     }

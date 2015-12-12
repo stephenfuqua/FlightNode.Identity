@@ -2,8 +2,6 @@ using System.Web.Http;
 using WebActivatorEx;
 using FlightNode.Identity.App;
 using Swashbuckle.Application;
-using Flurl;
-using Flurl.Util;
 using System;
 using System.IO;
 

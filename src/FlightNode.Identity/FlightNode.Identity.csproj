@@ -68,8 +68,6 @@
     </Compile>
     <Compile Include="Services\Controllers\RoleController.cs" />
     <Compile Include="Services\Controllers\UserController.cs" />
-    <Compile Include="Services\Filters\NotImplExceptionFilter.cs" />
-    <Compile Include="Services\Filters\UnhandledExceptionFilter.cs" />
     <Compile Include="Services\Models\RoleModel.cs" />
     <Compile Include="Services\Providers\ApiStartup.cs" />
     <Compile Include="Services\Providers\JwtFormat.cs" />

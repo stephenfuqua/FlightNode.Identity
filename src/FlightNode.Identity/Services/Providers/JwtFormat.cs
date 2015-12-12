@@ -2,6 +2,7 @@
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using System;
 using System.IdentityModel.Tokens;
+using System.Security.Cryptography;
 using Thinktecture.IdentityModel.Tokens;
 
 namespace FlightNode.Identity.Services.Providers
@@ -47,6 +48,28 @@ namespace FlightNode.Identity.Services.Providers
         public AuthenticationTicket Unprotect(string protectedText)
         {
             throw new NotImplementedException();
+        }
+
+
+        // Call this from a unit test in order to generate a new random set of audience ID (client) and audience secret (key)
+        public static Audience AddAudience(string name)
+        {
+            var clientId = Guid.NewGuid().ToString("N");
+
+            var key = new byte[32];
+            RNGCryptoServiceProvider.Create().GetBytes(key);
+            var base64Secret = TextEncodings.Base64Url.Encode(key);
+
+            Audience newAudience = new Audience { ClientId = clientId, Base64Secret = base64Secret, Name = name };
+            //AudiencesList.TryAdd(clientId, newAudience);
+            return newAudience;
+        }
+
+        public class Audience
+        {
+            public string ClientId { get; set; }
+            public string Base64Secret { get; set; }
+            public string Name { get; set; }
         }
     }
 }

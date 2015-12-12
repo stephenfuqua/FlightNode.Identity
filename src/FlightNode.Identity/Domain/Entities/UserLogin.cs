@@ -5,5 +5,6 @@ namespace FlightNode.Identity.Domain.Entities
 {
     public class UserLogin : IdentityUserLogin<int>, IEntity
     {
+        public int Id {  get { return base.UserId; } }
     }
 }
