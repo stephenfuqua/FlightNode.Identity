@@ -1,10 +1,12 @@
-﻿using FlightNode.Common.BaseClasses;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using FlightNode.Common.BaseClasses;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FlightNode.Identity.Domain.Entities
 {
     public class UserLogin : IdentityUserLogin<int>, IEntity
     {
-        public int Id {  get { return base.UserId; } }
+        [NotMapped]
+        public int Id { get { return base.UserId; } set { base.UserId = value; } }
     }
 }
