@@ -1,5 +1,4 @@
-﻿using FlightNode.Common.Exceptions;
-using FlightNode.Identity.Domain.Interfaces;
+﻿using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
 using System;
@@ -33,19 +32,18 @@ namespace FlightNode.Identity.Services.Controllers
         /// Retrieves all roles
         /// </summary>
         /// <returns>Action Result with a collection of <see cref="RoleModel"/></returns>
+        [Authorize(Roles = "Administrator, Coordinator")]
         public IHttpActionResult Get()
         {
             return WrapWithTryCatch(() =>
             {
-                var list = _roleManager.FindAll();
-                if (list.Count() > 0)
+                var list = _roleManager.FindAll().ToList();
+                if (list.Any())
                 {
                     return Ok(list);
                 }
-                else
-                {
-                    return NotFound();
-                }
+
+                return NotFound();
             });
         }
     }

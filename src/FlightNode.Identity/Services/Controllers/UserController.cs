@@ -1,4 +1,4 @@
-﻿using FlightNode.Common.Exceptions;
+﻿
 using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
@@ -32,10 +32,7 @@ namespace FligthNode.Identity.Services.Controllers
 
         // TODO: ensure that bearer token expirations are being honored.
 
-        // TODO: further limit who can take what actions. This class
-        // should generally be used just for administration.
-
-
+        
         /// <summary>
         /// Retrieves all active system users.
         /// </summary>
@@ -43,7 +40,7 @@ namespace FligthNode.Identity.Services.Controllers
         /// <example>
         /// GET: /api/v1/User
         /// </example>
-        [Authorize]
+        [Authorize(Roles = "Administrator, Coordinator")]
         public IHttpActionResult Get()
         {
             return WrapWithTryCatch(() =>
@@ -61,7 +58,7 @@ namespace FligthNode.Identity.Services.Controllers
         /// <example>
         /// GET: /api/v1/user/1
         /// </example>
-        [Authorize]
+        [Authorize(Roles = "Administrator, Coordinator")]
         public IHttpActionResult Get(int id)
         {
             return WrapWithTryCatch(() =>
@@ -95,9 +92,7 @@ namespace FligthNode.Identity.Services.Controllers
         ///   "password": "deerEatRabbits?"
         /// }
         /// </example>
-        /// 
-        //[Authorize(Roles = "Administrator")]   // the roles are not loading or something... because a user who actually has this role is being denied.
-        [Authorize]
+        [Authorize(Roles = "Administrator, Coordinator")]
         public IHttpActionResult Post([FromBody]UserModel user)
         {
             if (!ModelState.IsValid)
@@ -109,6 +104,9 @@ namespace FligthNode.Identity.Services.Controllers
             {
 
                 var result = _manager.Create(user);
+
+                // TODO: is not saving Roles
+
                 var location = Request.RequestUri
                                       .ToString()
                                       .AppendPathSegment(result.UserId.ToString());
@@ -137,7 +135,7 @@ namespace FligthNode.Identity.Services.Controllers
         /// }
         /// </example>
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "Administrator, Coordinator")]
         [Route("api/v1/user/changepassword/{id:int}")]
         public IHttpActionResult ChangePassword(int id, [FromBody]PasswordModel change)
         {
@@ -176,7 +174,7 @@ namespace FligthNode.Identity.Services.Controllers
         ///   "password": "will be ignored"
         /// }
         /// </example>
-        [Authorize]
+        [Authorize(Roles = "Administrator, Coordinator")]
         public IHttpActionResult Put(int id, [FromBody]UserModel user)
         {
             if (!ModelState.IsValid)
@@ -202,7 +200,7 @@ namespace FligthNode.Identity.Services.Controllers
         /// <example>
         /// DELETE: api/v1/User/1
         /// </example>
-        [Authorize]
+        [Authorize(Roles = "Administrator, Coordinator")]
         public IHttpActionResult Delete(int id)
         {
             return WrapWithTryCatch(() =>

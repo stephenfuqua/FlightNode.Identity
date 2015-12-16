@@ -35,8 +35,10 @@ namespace FlightNode.Identity.Migrations
                 };
 
                 manager.CreateAsync(user, "dirigible1").Wait();
-            }
 
+                manager.AddToRolesAsync(user.Id, new[] {"Administrator", "Reporter", "Coordinator", "Lead"}).Wait();
+            }
+ 
         }
     }
 }

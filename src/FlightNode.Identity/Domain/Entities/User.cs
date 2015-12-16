@@ -41,7 +41,7 @@ namespace FlightNode.Identity.Domain.Entities
             // CookieAuthenticationOptions.AuthenticationType 
 
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
-
+            
             // Custom claims
             userIdentity.AddClaim(new Claim("displayName", this.DisplayName));
 

@@ -46,6 +46,7 @@
     <Compile Include="Domain\Interfaces\IUserPersistence.cs" />
     <Compile Include="Domain\Managers\RoleDomainManager.cs" />
     <Compile Include="Infrastructure\InfrastructureExtensions.cs" />
+    <Compile Include="Infrastructure\Persistence\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Persistence\IdentityDbContext.cs" />
     <Compile Include="Infrastructure\Persistence\RoleStore.cs" />
     <Compile Include="Infrastructure\Persistence\UserManager.cs" />
