@@ -35,15 +35,12 @@ namespace FlightNode.Identity.Domain.Logic
             return _userManager.Users
                 .Where(x => x.Active)
                 .ToList()
-                .Select(x => Map(x));   
+                .Select(Map);   
         }
 
         public UserModel FindById(int id)
         {
             var record = _userManager.FindByIdAsync(id).Result;
-
-            // TODO: Is this fully hydrated? That is, does FindByIdAsync also populate 
-            // roles & claims? If so, need to map those as well.
 
             if (record == null)
             {
@@ -108,8 +105,17 @@ namespace FlightNode.Identity.Domain.Logic
             var result = _userManager.CreateAsync(record, input.Password).Result;
             if (result.Succeeded)
             {
-                input.UserId = record.Id;
-                return input;
+                result = _userManager.AddToRolesAsync(record.Id, input.Roles.ToArray()).Result;
+
+                if (result.Succeeded)
+                {
+                    input.UserId = record.Id;
+                    return input;
+                }
+                else
+                {
+                    throw UserException.FromMultipleMessages(result.Errors);
+                }
             }
             else
             {

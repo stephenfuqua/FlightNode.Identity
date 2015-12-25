@@ -6,6 +6,7 @@ using Moq;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -63,7 +64,10 @@ namespace FlightNode.Identity.UnitTests.Controllers
         {
             public class HappyPath : Fixture
             {
-                private List<RoleModel> list = new List<RoleModel>();
+                private List<RoleModel> list = new List<RoleModel>
+                {
+                    new RoleModel()
+                };
 
                 private HttpResponseMessage RunTest()
                 {
@@ -75,7 +79,7 @@ namespace FlightNode.Identity.UnitTests.Controllers
                 [Fact]
                 public void ConfirmHappyPathContent()
                 {
-                    Assert.Same(list, RunTest().Content.ReadAsAsync<List<RoleModel>>().Result);
+                    Assert.Same(list.First(), RunTest().Content.ReadAsAsync<List<RoleModel>>().Result.First());
                 }
 
                 [Fact]

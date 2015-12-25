@@ -29,9 +29,6 @@ namespace FligthNode.Identity.Services.Controllers
             _manager = manager;
         }
 
-
-        // TODO: ensure that bearer token expirations are being honored.
-
         
         /// <summary>
         /// Retrieves all active system users.
@@ -104,8 +101,6 @@ namespace FligthNode.Identity.Services.Controllers
             {
 
                 var result = _manager.Create(user);
-
-                // TODO: is not saving Roles
 
                 var location = Request.RequestUri
                                       .ToString()

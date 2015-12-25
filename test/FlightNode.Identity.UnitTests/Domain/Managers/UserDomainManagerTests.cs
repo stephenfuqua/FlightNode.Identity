@@ -98,7 +98,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                     Password = password,
                     PrimaryPhoneNumber = primaryPhoneNumber,
                     SecondaryPhoneNumber = secondaryPhoneNumber,
-                    UserName = userName
+                    UserName = userName,
+                    Roles = new List<string>()
                 };
 
                 return BuildSystem().Create(input);
@@ -107,6 +108,9 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             [Fact]
             public void ConfirmUserIdIsSet()
             {
+                mockUserManager.Setup(x => x.AddToRolesAsync(It.Is<int>(y => y == userId), It.Is<string[]>(y => y.Length == 0)))
+                    .Returns(Task.Run(() => SuccessResult.Create()));
+
                 mockUserManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.Is<string>(y => y == password)))
                     .Callback((User actual, string p) =>
                     {
@@ -125,9 +129,25 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                         return Task.Run(() => SuccessResult.Create());
                     });
 
-
-
                 Assert.Equal(userId, RunTest().UserId);
+            }
+
+
+            [Fact]
+            public void ConfirmExceptionIfRolesDoNotSave()
+            {
+                mockUserManager.Setup(x => x.AddToRolesAsync(It.Is<int>(y => y == userId), It.Is<string[]>(y => y.Length == 0)))
+                    .Returns(Task.Run(() => SuccessResult.Failed("asdfasd")));
+
+                mockUserManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.Is<string>(y => y == password)))
+                    .Returns((User actual, string p) =>
+                    {
+                        actual.Id = userId;
+
+                        return Task.Run(() => SuccessResult.Create());
+                    });
+                
+                Assert.Throws<UserException>(() => RunTest());
             }
 
             [Fact]

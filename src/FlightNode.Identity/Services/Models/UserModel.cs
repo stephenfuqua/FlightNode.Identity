@@ -65,8 +65,7 @@ namespace FlightNode.Identity.Services.Models
         /// <summary>
         /// Roles to which this user belongs
         /// </summary>
-        public IList<int> Roles { get; set; }
+        public IList<string> Roles { get; set; }
 
-        //public IList<System.Security.Claims.ClaimsIdentity> Claims { get; set; }
     }
 }
