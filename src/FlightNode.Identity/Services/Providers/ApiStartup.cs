@@ -9,7 +9,9 @@ using Microsoft.Owin.Security.OAuth;
 using Microsoft.Practices.Unity;
 using Owin;
 using System;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace FlightNode.Identity.Services.Providers
 {
@@ -26,12 +28,13 @@ namespace FlightNode.Identity.Services.Providers
         private static IAppBuilder ConfigureIdentityManagement(IAppBuilder app, string issuer)
         {
             app.CreatePerOwinContext(IdentityDbContext.Create);
-            app.CreatePerOwinContext<UserManager>(UserManager.Create);
+            app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
 
             var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 //For Dev enviroment only (on production should be AllowInsecureHttpConnection = false)
                 AllowInsecureHttp = Properties.Settings.Default.AllowInsecureHttpConnection,
+
                 TokenEndpointPath = new PathString("/oauth/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new OAuthProvider(),
@@ -42,6 +45,21 @@ namespace FlightNode.Identity.Services.Providers
 
             // OAuth 2.0 Bearer Access Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
+
+
+            //var OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
+            //OAuthBearerOptions.AccessTokenFormat = OAuthServerOptions.AccessTokenFormat;
+            //OAuthBearerOptions.AccessTokenProvider = OAuthServerOptions.AccessTokenProvider;
+            //OAuthBearerOptions.AuthenticationMode = OAuthServerOptions.AuthenticationMode;
+            //OAuthBearerOptions.AuthenticationType = OAuthServerOptions.AuthenticationType;
+            //OAuthBearerOptions.Description = OAuthServerOptions.Description;
+
+            //OAuthBearerOptions.Provider = new CustomBearerAuthenticationProvider();
+            //OAuthBearerOptions.SystemClock = OAuthServerOptions.SystemClock;
+
+            //app.UseOAuthBearerAuthentication(OAuthBearerOptions);
+
+            //app.UseOAuthBearerTokens(OAuthServerOptions);
 
             return app;
         }
@@ -72,7 +90,7 @@ namespace FlightNode.Identity.Services.Providers
             container = RegisterAllTypesIn(container, Assembly.GetExecutingAssembly());
 
             container.RegisterType<IdentityDbContext>();
-            container.RegisterType(typeof(IUserStore<User, int>), typeof(UserStore));
+            container.RegisterType(typeof(IUserStore<User, int>), typeof(AppUserStore));
 
             return container;
         }
@@ -88,4 +106,17 @@ namespace FlightNode.Identity.Services.Providers
         }
 
     }
+
+    //public class CustomBearerAuthenticationProvider : OAuthBearerAuthenticationProvider
+    //{
+    //    // This validates the identity based on the issuer of the claim.
+    //    // The issuer is set in the API endpoint that logs the user in
+    //    public override Task ValidateIdentity(OAuthValidateIdentityContext context)
+    //    {
+    //        var claims = context.Ticket.Identity.Claims;
+    //        if (claims.Count() == 0 || claims.Any(claim => claim.Issuer != "Facebook" && claim.Issuer != "LOCAL_AUTHORITY"))
+    //            context.Rejected();
+    //        return Task.FromResult<object>(null);
+    //    }
+    //}
 }

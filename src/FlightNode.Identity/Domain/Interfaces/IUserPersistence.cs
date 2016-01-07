@@ -9,7 +9,6 @@ namespace FlightNode.Identity.Domain.Interfaces
 {
     public interface IUserPersistence
     {
-        void SoftDelete(int id);
         Task<User> FindByIdAsync(int id);
         Task<IdentityResult> UpdateAsync(User user);
         Task<IdentityResult> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
@@ -20,6 +19,9 @@ namespace FlightNode.Identity.Domain.Interfaces
         Task<IdentityResult> AddClaimAsync(int userId, Claim claim);
         Task<IdentityResult> AddToRolesAsync(int userId, params string[] roles);
         IQueryable<User> Users { get; }
+        Task<string> GeneratePasswordResetTokenAsync(int userId);
+        Task<IdentityResult> ResetPasswordAsync(int userId, string token, string newPassword);
+        Task<IdentityResult> RemoveFromRolesAsync(int userId, params string[] roles);
     }
 
 }

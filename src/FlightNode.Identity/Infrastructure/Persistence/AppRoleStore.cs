@@ -1,11 +1,13 @@
 ﻿using FlightNode.Identity.Domain.Entities;
+using FlightNode.Identity.Domain.Interfaces;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FlightNode.Identity.Infrastructure.Persistence
 {
-    public class UserStore : UserStore<User, Role, int, UserLogin, UserRole, UserClaim>
+
+    public class AppRoleStore : RoleStore<Role, int, UserRole>, IRolePersistence
     {
-        public UserStore(IdentityDbContext context)
+        public AppRoleStore(IdentityDbContext context)
             : base(context)
         {
         }

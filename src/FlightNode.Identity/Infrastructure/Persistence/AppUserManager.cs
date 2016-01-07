@@ -4,22 +4,24 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace FlightNode.Identity.Infrastructure.Persistence
 {
 
-    public class UserManager : UserManager<User, int>, IUserPersistence
+    public class AppUserManager : UserManager<User, int>, IUserPersistence
     {
-        public UserManager(IUserStore<User, int> store)
+        public AppUserManager(IUserStore<User, int> store)
         : base(store)
         {
         }
         
 
-        public static UserManager Create(IdentityFactoryOptions<UserManager> options, IOwinContext context)
+        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
         {
-            var manager = new UserManager(new UserStore(context.Get<IdentityDbContext>()));
+            var manager = new AppUserManager(new AppUserStore(context.Get<IdentityDbContext>()));
 
             // Configure validation logic for usernames 
             manager.UserValidator = new UserValidator<User, int>(manager)
@@ -65,44 +67,7 @@ namespace FlightNode.Identity.Infrastructure.Persistence
                         dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
-        }
-
-        public void SoftDelete(int id)
-        {
-            // TODO SF: revisit, decided if this is needed
-
-            //var input = new User
-            //{
-            //    Id = id,
-            //    Active = false
-            //};
-
-            //var expressions = new List<Expression<Func<User, object>>>
-            //     {
-            //         x => x.Active
-            //     };
-
-            //try
-            //{
-            //    DbContext.Entry(input).SetModified(expressions);
-
-            //    var rowcount = DbContext.SaveChanges();
-            //    if (rowcount != 1)
-            //    {
-            //        // TODO: this should really be in a transaction 
-            //        throw ServerException.UpdateFailed<User>("SoftDelete", id);
-            //    }
-            //}
-            //catch (ServerException)
-            //{
-            //    throw;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ServerException.HandleException<User>(ex, "SoftDelete", id);
-            //}
-        }
-        
+        }        
     }
 
 

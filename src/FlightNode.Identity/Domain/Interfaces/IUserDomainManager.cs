@@ -9,8 +9,8 @@ namespace FlightNode.Identity.Domain.Interfaces
         UserModel FindById(int id);
         UserModel Create(UserModel input);
         void Update(UserModel input);
-        void Deactivate(int id);
         void ChangePassword(int id, PasswordModel change);
+        void AdministrativePasswordChange(int userId, string newPassword);
     }
 
 }

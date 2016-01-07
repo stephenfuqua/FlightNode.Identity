@@ -2,8 +2,8 @@
 using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Services.Controllers;
 using FlightNode.Identity.Services.Models;
+using log4net;
 using Moq;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +20,12 @@ namespace FlightNode.Identity.UnitTests.Controllers
         {
             protected MockRepository Repository = new MockRepository(MockBehavior.Strict);
             protected Mock<IRoleManager> MockManager;
-            protected Mock<ILogger> MockLogger;
+            protected Mock<ILog> MockLogger;
 
             protected Fixture()
             {
                 MockManager = Repository.Create<IRoleManager>();
-                MockLogger = Repository.Create<ILogger>();
+                MockLogger = Repository.Create<ILog>();
             }
 
             protected RoleController BuildSystem()

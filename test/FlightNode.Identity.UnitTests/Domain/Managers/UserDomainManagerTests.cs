@@ -14,11 +14,6 @@ using Xunit;
 
 namespace FlightNode.Identity.UnitTests.Domain.Logic
 {
-    // Only use this class and its test when you need to hash a password and manually update the database
-    //public class ManualHashing
-    //{
-    //    UserManager<User> manager = new UserManager<User>(new UserStore(IdentityDbContext.Create()));
-    //}
 
 
     public class UserDomainManagerTests
@@ -54,20 +49,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 Assert.Throws<ArgumentNullException>(() => new UserDomainManager(null));
             }
         }
-
-        public class DeactivateAUser : Fixture
-        {
-            const int id = 23423;
-
-            [Fact]
-            public void ConfirmCallToSoftDelete()
-            {
-                mockUserManager.Setup(x => x.SoftDelete(It.Is<int>(y => y == id)));
-
-                BuildSystem().Deactivate(id);
-            }
-        }
-
+        
         public class CreateUser : Fixture
         {
             [Fact]
@@ -196,6 +178,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             const string password = "bien gracias, y tú?";
             const string email = "jose@jalapenos.com";
             const int userId = 2342;
+            const string oldRole = "Old";
+            const string newRole = "new";
 
             private void RunTest()
             {
@@ -208,7 +192,8 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                     PrimaryPhoneNumber = primaryPhoneNumber,
                     SecondaryPhoneNumber = secondaryPhoneNumber,
                     UserName = userName,
-                    UserId = userId
+                    UserId = userId,
+                    Roles = new List<string>() {  newRole }
                 };
 
                 BuildSystem().Update(input);
@@ -217,9 +202,11 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
             [Fact]
             public void ConfirmUserIdIsSet()
             {
+                // Must retrieve the user first
                 mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
                     .Returns(Task.Run(() => new User()));
 
+                // Then update the user
                 mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
                     .Callback((User actual) =>
                     {
@@ -238,11 +225,26 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                         return Task.Run(() => SuccessResult.Create());
                     });
 
+                // For roles, must retrieve existing roles
+                mockUserManager.Setup(x => x.GetRolesAsync(It.Is<int>(y => y == userId)))
+                    .ReturnsAsync(new List<string>() { oldRole });
+
+                // Then remove them
+                mockUserManager.Setup(x => x.RemoveFromRolesAsync(It.Is<int>(y => y == userId),
+                                                                   It.Is<string[]>(y => y[0] == oldRole)))
+                            .ReturnsAsync(SuccessResult.Create());
+
+                // And finally save new ones
+                mockUserManager.Setup(x => x.AddToRolesAsync(It.Is<int>(y => y == userId),
+                                                                   It.Is<string[]>(y => y[0] == newRole)))
+                            .ReturnsAsync(SuccessResult.Create());
+
+                // Finally we can run the test
                 RunTest();
             }
 
             [Fact]
-            public void ConfirmErrorHandling()
+            public void ConfirmHandlingOfErrorWhenSavingUpdatedUserRecord()
             {
                 mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
                        .Returns(Task.Run(() => new User()));
@@ -258,7 +260,97 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
 
                 Assert.Throws<UserException>(() => RunTest());
             }
+
+            [Fact]
+            public void ConfirmHandlingOfErrorWhenRemovingExistingRoles()
+            {
+                const string badStuffHappened = "Bad stuff happened";
+
+                // Must retrieve the user first
+                mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
+                    .Returns(Task.Run(() => new User()));
+
+                // Then update the user
+                mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
+                    .Callback((User actual) =>
+                    {
+                        Assert.Equal(givenName, actual.GivenName);
+                        Assert.Equal(familyName, actual.FamilyName);
+                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
+                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
+                        Assert.Equal(userName, actual.UserName);
+                        Assert.Equal(email, actual.Email);
+                        Assert.True(actual.Active);
+                    })
+                    .Returns((User actual) =>
+                    {
+                        actual.Id = userId;
+
+                        return Task.Run(() => SuccessResult.Create());
+                    });
+
+                // For roles, must retrieve existing roles
+                mockUserManager.Setup(x => x.GetRolesAsync(It.Is<int>(y => y == userId)))
+                    .ReturnsAsync(new List<string>() { oldRole });
+
+                // Then remove them
+                mockUserManager.Setup(x => x.RemoveFromRolesAsync(It.Is<int>(y => y == userId),
+                                                                   It.Is<string[]>(y => y[0] == oldRole)))
+                            .ReturnsAsync(SuccessResult.Failed(badStuffHappened));
+
+
+                // Finally we can run the test
+                Assert.Throws<UserException>(() => RunTest());
+            }
+
+            [Fact]
+            public void ConfirmHandlingOfErrorWhenRemovingAddingNewRoles()
+            {
+                const string badStuffHappened = "Bad stuff happened";
+
+                // Must retrieve the user first
+                mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
+                    .Returns(Task.Run(() => new User()));
+
+                // Then update the user
+                mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>()))
+                    .Callback((User actual) =>
+                    {
+                        Assert.Equal(givenName, actual.GivenName);
+                        Assert.Equal(familyName, actual.FamilyName);
+                        Assert.Equal(primaryPhoneNumber, actual.PhoneNumber);
+                        Assert.Equal(secondaryPhoneNumber, actual.MobilePhoneNumber);
+                        Assert.Equal(userName, actual.UserName);
+                        Assert.Equal(email, actual.Email);
+                        Assert.True(actual.Active);
+                    })
+                    .Returns((User actual) =>
+                    {
+                        actual.Id = userId;
+
+                        return Task.Run(() => SuccessResult.Create());
+                    });
+
+                // For roles, must retrieve existing roles
+                mockUserManager.Setup(x => x.GetRolesAsync(It.Is<int>(y => y == userId)))
+                    .ReturnsAsync(new List<string>() { oldRole });
+
+                // Then remove them
+                mockUserManager.Setup(x => x.RemoveFromRolesAsync(It.Is<int>(y => y == userId),
+                                                                   It.Is<string[]>(y => y[0] == oldRole)))
+                            .ReturnsAsync(SuccessResult.Create());
+
+                // And finally save new ones
+                mockUserManager.Setup(x => x.AddToRolesAsync(It.Is<int>(y => y == userId),
+                                                                   It.Is<string[]>(y => y[0] == newRole)))
+                            .ReturnsAsync(SuccessResult.Failed(badStuffHappened));
+
+
+                // Finally we can run the test
+                Assert.Throws<UserException>(() => RunTest());
+            }
         }
+
         public class FindAllUsers : Fixture
         {
 
@@ -507,6 +599,7 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
                 const bool active = true;
                 const string familyName = "last";
                 const string givenName = "first";
+                const string role = "Administrator";
 
                 private UserModel RunTheTest()
                 {
@@ -524,8 +617,16 @@ namespace FlightNode.Identity.UnitTests.Domain.Logic
 
                     mockUserManager.Setup(x => x.FindByIdAsync(It.Is<int>(y => y == userId)))
                                    .ReturnsAsync(user);
+                    mockUserManager.Setup(x => x.GetRolesAsync(It.Is<int>(y => y == userId)))
+                        .ReturnsAsync(new List<string>() { role });
 
                     return BuildSystem().FindById(userId);
+                }
+
+                [Fact]
+                public void ConfirmMapsRole()
+                {
+                    Assert.Equal(role, RunTheTest().Roles.First());
                 }
 
                 [Fact]

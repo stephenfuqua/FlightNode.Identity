@@ -24,12 +24,7 @@ namespace FlightNode.Identity.Domain.Logic
             _userManager = manager;
         }
 
-
-        public void Deactivate(int id)
-        {
-            _userManager.SoftDelete(id);
-        }
-
+        
         public IEnumerable<UserModel> FindAll()
         {
             return _userManager.Users
@@ -40,16 +35,17 @@ namespace FlightNode.Identity.Domain.Logic
 
         public UserModel FindById(int id)
         {
-            var record = _userManager.FindByIdAsync(id).Result;
+            UserModel output = null;
 
-            if (record == null)
+            var record = _userManager.FindByIdAsync(id).Result ?? new User();
+
+            output = Map(record);
+            if (record.Id > 0)
             {
-                return new UserModel();
+                output.Roles = _userManager.GetRolesAsync(id).Result;
             }
-            else
-            {
-                return Map(record);
-            }
+
+            return output;
         }
 
         private UserModel Map(User input)
@@ -75,6 +71,10 @@ namespace FlightNode.Identity.Domain.Logic
                 throw new ArgumentNullException("input");
             }
 
+
+            // TODO: transaction management. Should not be able to update user and remove old
+            // roles, if there is a problem with saving new ones.
+
             var record = _userManager.FindByIdAsync(input.UserId).Result;
 
             record.Email = input.Email;
@@ -85,7 +85,22 @@ namespace FlightNode.Identity.Domain.Logic
             record.FamilyName = input.FamilyName;
 
             var result = _userManager.UpdateAsync(record).Result;
-            if (!result.Succeeded)
+            if (result.Succeeded)
+            {
+                var existingRoles = _userManager.GetRolesAsync(input.UserId).Result;
+                result = _userManager.RemoveFromRolesAsync(input.UserId, existingRoles.ToArray()).Result;
+                if (!result.Succeeded)
+                {
+                    throw UserException.FromMultipleMessages(result.Errors);
+                }
+
+                result = _userManager.AddToRolesAsync(input.UserId, input.Roles.ToArray()).Result;
+                if (!result.Succeeded)
+                {
+                    throw UserException.FromMultipleMessages(result.Errors);
+                }
+            }           
+            else
             {
                 throw UserException.FromMultipleMessages(result.Errors);
             }
@@ -145,6 +160,12 @@ namespace FlightNode.Identity.Domain.Logic
             {
                 throw UserException.FromMultipleMessages(result.Errors);
             }
+        }
+
+        public void AdministrativePasswordChange(int userId, string newPassword)
+        {
+            var token = _userManager.GeneratePasswordResetTokenAsync(userId).Result;
+            _userManager.ResetPasswordAsync(userId, token, newPassword);
         }
     }
 }

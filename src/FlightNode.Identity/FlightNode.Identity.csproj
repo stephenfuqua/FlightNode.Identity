@@ -48,9 +48,9 @@
     <Compile Include="Infrastructure\InfrastructureExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Persistence\IdentityDbContext.cs" />
-    <Compile Include="Infrastructure\Persistence\RoleStore.cs" />
-    <Compile Include="Infrastructure\Persistence\UserManager.cs" />
-    <Compile Include="Infrastructure\Persistence\UserStore.cs" />
+    <Compile Include="Infrastructure\Persistence\AppRoleStore.cs" />
+    <Compile Include="Infrastructure\Persistence\AppUserManager.cs" />
+    <Compile Include="Infrastructure\Persistence\AppUserStore.cs" />
     <Compile Include="Domain\Managers\UserDomainManager.cs" />
     <Compile Include="Migrations\201510042043506_InitialModels.cs" />
     <Compile Include="Migrations\201510042043506_InitialModels.Designer.cs">
@@ -110,6 +110,10 @@
     </Reference>
     <Reference Include="Flurl">
       <HintPath>..\..\..\Packages\Flurl.1.0.10\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\Packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
@@ -183,11 +187,6 @@
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\FlightNode.Service\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin">

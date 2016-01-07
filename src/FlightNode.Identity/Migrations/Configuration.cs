@@ -23,7 +23,7 @@ namespace FlightNode.Identity.Migrations
             );
 
             // Initial users
-            var manager = new UserManager(new UserStore(context));
+            var manager = new AppUserManager(new AppUserStore(context));
             if (manager.FindByNameAsync("asdf").Result == null)
             {
                 var user = new User
