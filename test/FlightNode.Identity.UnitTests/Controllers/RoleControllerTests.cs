@@ -28,9 +28,9 @@ namespace FlightNode.Identity.UnitTests.Controllers
                 MockLogger = Repository.Create<ILog>();
             }
 
-            protected RoleController BuildSystem()
+            protected RolesController BuildSystem()
             {
-                var controller = new RoleController(MockManager.Object);
+                var controller = new RolesController(MockManager.Object);
                 controller.Logger = MockLogger.Object;
 
                 controller.Request = new HttpRequestMessage();
@@ -56,7 +56,7 @@ namespace FlightNode.Identity.UnitTests.Controllers
             [Fact]
             public void ConfirmThatNullArgumentIsNotAllowed()
             {
-                Assert.Throws<ArgumentNullException>(() => new RoleController(null));
+                Assert.Throws<ArgumentNullException>(() => new RolesController(null));
             }
         }
 

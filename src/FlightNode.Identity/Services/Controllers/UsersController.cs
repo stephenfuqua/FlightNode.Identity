@@ -1,9 +1,11 @@
 ﻿
+using FlightNode.Common.Api.Models;
 using FlightNode.Identity.Domain.Interfaces;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
 using Flurl;
 using System;
+using System.Linq;
 using System.Web.Http;
 
 namespace FligthNode.Identity.Services.Controllers
@@ -11,15 +13,15 @@ namespace FligthNode.Identity.Services.Controllers
     /// <summary>
     /// API Controller for User records
     /// </summary>
-    public class UserController : LoggingController
+    public class UsersController : LoggingController
     {
         private readonly IUserDomainManager _manager;
 
         /// <summary>
-        /// Creates a new instance of <see cref="UserController"/>
+        /// Creates a new instance of <see cref="UsersController"/>
         /// </summary>
         /// <param name="manager">Instance of <see cref="IUserDomainManager"/></param>
-        public UserController(IUserDomainManager manager)
+        public UsersController(IUserDomainManager manager)
         {
             if (manager == null)
             {
@@ -203,7 +205,33 @@ namespace FligthNode.Identity.Services.Controllers
         {
             return WrapWithTryCatch(() =>
             {
-                return NoContent();
+                return MethodNotAllowed();
+            });
+        }
+
+        /// <summary>
+        /// Retrieves a simplified list representation of all work type resources.
+        /// </summary>
+        /// <returns>Action result containing an enumeration of <see cref="SimpleListItem"/></returns>
+        /// <example>
+        /// GET: /api/v1/worktypes/simple
+        /// </example>
+        [Authorize]
+        [Route("api/v1/users/simplelist")]
+        [HttpGet]
+        public IHttpActionResult SimpleList()
+        {
+            return WrapWithTryCatch(() =>
+            {
+                var all = _manager.FindAll();
+
+                var models = all.Select(x => new SimpleListItem
+                {
+                    Value = x.DisplayName,
+                    Id = x.UserId
+                });
+
+                return Ok(models);
             });
         }
     }

@@ -67,5 +67,7 @@ namespace FlightNode.Identity.Services.Models
         /// </summary>
         public IList<string> Roles { get; set; }
 
+        public string DisplayName {  get { return GivenName + " " + FamilyName;  } }
+
     }
 }

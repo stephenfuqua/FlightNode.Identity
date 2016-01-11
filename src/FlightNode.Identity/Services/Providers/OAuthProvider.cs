@@ -20,21 +20,21 @@ namespace FlightNode.Identity.Services.Providers
         {
 
             var userManager = context.OwinContext.GetUserManager<AppUserManager>();
-            
-                var user = await userManager.FindAsync(context.UserName, context.Password);
 
-                if (user == null)
-                {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
-                    return;
-                }
+            var user = await userManager.FindAsync(context.UserName, context.Password);
 
-                var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
+            if (user == null)
+            {
+                context.SetError("invalid_grant", "The user name or password is incorrect.");
+                return;
+            }
 
-                var ticket = new AuthenticationTicket(oAuthIdentity, null);
+            var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
 
-                context.Validated(ticket);
-            
+            var ticket = new AuthenticationTicket(oAuthIdentity, null);
+
+            context.Validated(ticket);
+
         }
     }
 }

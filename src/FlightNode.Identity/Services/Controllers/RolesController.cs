@@ -10,15 +10,15 @@ namespace FlightNode.Identity.Services.Controllers
     /// <summary>
     /// API Controller for User Roles
     /// </summary>
-    public class RoleController : LoggingController
+    public class RolesController : LoggingController
     {
         private readonly IRoleManager _roleManager;
 
         /// <summary>
-        /// Creates a new instance of <see cref="RoleController"/>.
+        /// Creates a new instance of <see cref="RolesController"/>.
         /// </summary>
         /// <param name="roleManager">Instance of <see cref="IRoleManager"/></param>
-        public RoleController(IRoleManager roleManager)
+        public RolesController(IRoleManager roleManager)
         {
             if (roleManager == null)
             {
