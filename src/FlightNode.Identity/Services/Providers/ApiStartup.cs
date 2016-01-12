@@ -11,7 +11,6 @@ using Owin;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace FlightNode.Identity.Services.Providers
 {
@@ -45,21 +44,6 @@ namespace FlightNode.Identity.Services.Providers
 
             // OAuth 2.0 Bearer Access Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
-
-
-            //var OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
-            //OAuthBearerOptions.AccessTokenFormat = OAuthServerOptions.AccessTokenFormat;
-            //OAuthBearerOptions.AccessTokenProvider = OAuthServerOptions.AccessTokenProvider;
-            //OAuthBearerOptions.AuthenticationMode = OAuthServerOptions.AuthenticationMode;
-            //OAuthBearerOptions.AuthenticationType = OAuthServerOptions.AuthenticationType;
-            //OAuthBearerOptions.Description = OAuthServerOptions.Description;
-
-            //OAuthBearerOptions.Provider = new CustomBearerAuthenticationProvider();
-            //OAuthBearerOptions.SystemClock = OAuthServerOptions.SystemClock;
-
-            //app.UseOAuthBearerAuthentication(OAuthBearerOptions);
-
-            //app.UseOAuthBearerTokens(OAuthServerOptions);
 
             return app;
         }
@@ -106,17 +90,4 @@ namespace FlightNode.Identity.Services.Providers
         }
 
     }
-
-    //public class CustomBearerAuthenticationProvider : OAuthBearerAuthenticationProvider
-    //{
-    //    // This validates the identity based on the issuer of the claim.
-    //    // The issuer is set in the API endpoint that logs the user in
-    //    public override Task ValidateIdentity(OAuthValidateIdentityContext context)
-    //    {
-    //        var claims = context.Ticket.Identity.Claims;
-    //        if (claims.Count() == 0 || claims.Any(claim => claim.Issuer != "Facebook" && claim.Issuer != "LOCAL_AUTHORITY"))
-    //            context.Rejected();
-    //        return Task.FromResult<object>(null);
-    //    }
-    //}
 }
