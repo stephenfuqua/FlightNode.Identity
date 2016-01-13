@@ -1,11 +1,15 @@
 ﻿
 using FlightNode.Common.Api.Models;
 using FlightNode.Identity.Domain.Interfaces;
+using FlightNode.Identity.Domain.Logic;
+using FlightNode.Identity.Infrastructure.Persistence;
 using FlightNode.Identity.Services.Models;
 using FligthNode.Common.Api.Controllers;
 using Flurl;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 
 namespace FligthNode.Identity.Services.Controllers
@@ -142,7 +146,8 @@ namespace FligthNode.Identity.Services.Controllers
             }
             return WrapWithTryCatch(() =>
             {
-                _manager.ChangePassword(id, change);
+                var userManager = HttpContext.Current.GetOwinContext().GetUserManager<AppUserManager>();
+                userManager.ChangePasswordAsync(id, change.CurrentPassword, change.NewPassword);
 
                 return NoContent();
             });
@@ -183,8 +188,11 @@ namespace FligthNode.Identity.Services.Controllers
 
                 if (!string.IsNullOrWhiteSpace(user.Password))
                 {
-                    // TODO: missing back-end validation of the password complexity
-                    _manager.AdministrativePasswordChange(id, user.Password);
+                    // TODO: check on back-end validation of the password complexity
+
+                    var userManager = HttpContext.Current.GetOwinContext().GetUserManager<AppUserManager>();
+                    var domainManager = new UserDomainManager(userManager);
+                    domainManager.AdministrativePasswordChange(id, user.Password);
                 }
 
                 return NoContent();

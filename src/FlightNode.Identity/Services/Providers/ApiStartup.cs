@@ -28,7 +28,7 @@ namespace FlightNode.Identity.Services.Providers
         {
             app.CreatePerOwinContext(IdentityDbContext.Create);
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
-
+            
             var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 //For Dev enviroment only (on production should be AllowInsecureHttpConnection = false)

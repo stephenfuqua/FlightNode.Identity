@@ -165,7 +165,11 @@ namespace FlightNode.Identity.Domain.Logic
         public void AdministrativePasswordChange(int userId, string newPassword)
         {
             var token = _userManager.GeneratePasswordResetTokenAsync(userId).Result;
-            _userManager.ResetPasswordAsync(userId, token, newPassword);
+            var result = _userManager.ResetPasswordAsync(userId, token, newPassword).Result;
+            if (!result.Succeeded)
+            {
+                throw UserException.FromMultipleMessages(result.Errors);
+            }
         }
     }
 }

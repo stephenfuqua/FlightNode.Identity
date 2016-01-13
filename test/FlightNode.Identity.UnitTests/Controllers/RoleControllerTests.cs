@@ -138,6 +138,8 @@ namespace FlightNode.Identity.UnitTests.Controllers
                 [Fact]
                 public void ConfirmHandlingOfUserError()
                 {
+                    MockLogger.Setup(x => x.Debug(It.IsAny<Exception>()));
+
                     var e = new UserException("asdf");
                     Assert.Equal(HttpStatusCode.BadRequest, RunTest(e).StatusCode);
                 }

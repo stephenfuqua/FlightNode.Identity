@@ -67,7 +67,7 @@ namespace FlightNode.Identity.Infrastructure.Persistence
                         dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
-        }        
+        }
     }
 
 

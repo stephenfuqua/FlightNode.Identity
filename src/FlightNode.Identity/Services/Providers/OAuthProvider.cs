@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FlightNode.Identity.Services.Providers
